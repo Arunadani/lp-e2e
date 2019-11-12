@@ -11,8 +11,8 @@ add following dependency in package json:
     "typescript": "3.6.4",
     "@types/node": "12.12.2"
     
-   note : to install these dependency : ~npm i --save ts-node~ or
-   if it is specific versrion : ~npm i --save ts-node@8.5.0~
+   note : to install these dependency : npm i --save ts-node or
+   if it is specific versrion : npm i --save ts-node@8.5.0
    
   Faced issue in index.ts:
   "TS2440: Import declaration conflicts with local declaration of 'PluginConfig'"
@@ -27,7 +27,7 @@ add following dependency in package json:
   testSpec.ts
   here --- Imported
   
- ~ import {browser, element, by, By, $, $$, ExpectedConditions} from 'protractor';~
+ import {browser, element, by, By, $, $$, ExpectedConditions} from 'protractor';~
   
   created config.ts file
   Copied Previous .js config but modified few  
@@ -35,7 +35,7 @@ add following dependency in package json:
   ~import {Config} from 'protractor';
   export let config: Config = {
   ...
-  }~ also this one   
+  } also this one   
    specs: ["./*/*Spec.js"], (it should be .js not .ts)
    
    Compile:

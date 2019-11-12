@@ -48,6 +48,7 @@ add following dependency in package json:
    Compile:
    -----------
    tsc
+   
    Run:
    -------
    Protractor ./temp/config.js( where is your js file that path)

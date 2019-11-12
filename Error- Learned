@@ -1,6 +1,8 @@
   Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
   --------------------------------------------------------------------------------------------------------------
-  asyn and awit added 
+  jasmineNodeOpts: {
+defaultTimeoutInterval: 2500000
+}, 
   
   Non Angular website:
   -------------------

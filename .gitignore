@@ -1,3 +1,7 @@
+temp/
+Error-Learned
+stepDefinition/
+
 # Logs
 logs
 *.log

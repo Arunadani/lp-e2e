@@ -5,6 +5,9 @@ export let config: Config = {
   // The address of a running selenium server.
   //seleniumAddress: 'http://localhost:4444/wd/hub',
   directConnect: true,
+  framework: "custom",
+  // path relative to the current config file
+  frameworkPath: require.resolve("protractor-cucumber-framework"),
 
   // Capabilities to be passed to the webdriver instanace.
   capabilities: {
@@ -14,8 +17,13 @@ export let config: Config = {
   // Spec patterns are relative to the configuration file location passed
   // to protractor (in this example conf.js).
   // They may include glob patterns.
-  specs: ["./*/*Spec.js"],
-
+  specs: ["../*/*.feature"],
+  cucumberOpts: {
+    // require step definitions
+    require: [
+      "./specs/*.js" // accepts a glob
+    ]
+  },
   onPrepare: () => {
     browser
       .manage()
@@ -26,11 +34,5 @@ export let config: Config = {
       .timeouts()
       .implicitlyWait(5000);
     browser.ignoreSynchronization = true;
-  },
-
-  // Options to be passed to Jasmine-node.
-  jasmineNodeOpts: {
-    showColors: true, // Use colors in the command line report.
-    defaultTimeoutInterval: 2500000
   }
 };

@@ -20,9 +20,16 @@ const lp = {
     categoryVisible: "dropdown-menu .menu-scrollbar-1 .animated .fadeInDown",
     authorVisible: "dropdown-menu .menu-scrollbar-2 .animated .fadeInDown",
     quickLinks: ".footer_term a",
-    aboutusDisplay: ".term-to-us-form-section h3",
-    home: ".breadcrumb a",
-    bcHome: ".navbar-brand" //"ol.breadcrumb li:first-child a"
+    quickLinksDisplay: ".term-to-us-form-section",
+    bcHome: ".navbar-brand",
+    socialMedia: [".icoYoutube", ".icoInstagram", ".icoFacebook"],
+    //"ol.breadcrumb li:first-child a"
+    socialMediaDisplay: [
+      "#logo",
+      '.cq2ai img[alt="Instagram"]',
+      "#blueBarDOMInspector"
+    ]
+    //socialMediaDisplay:["#inner-header-container #text.style-scope"]
   }
 };
 

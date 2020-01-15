@@ -2,21 +2,29 @@ import { Given, When, Then } from "cucumber";
 import { browser, element, By, $, $$, ExpectedConditions } from "protractor";
 import { async } from "q";
 import { getEle } from "../helper/lpHelper";
-import chai from "chai";
-var expect = chai.expect;
+
+const chai = require("chai");
+const chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
+const expect = chai.expect;
+
 let eleLogin = getEle("login");
 var lpTitle = "lifepluz";
+browser.waitForAngularEnabled(false);
 
 Given("Open {string} page", async string => {
   if (string == "lp") {
     await browser.get("https://www.lifepluz.com/");
-    browser.sleep(2000);
+    //browser.sleep(5000);
   }
 });
 
 When("Check the logo", async () => {
-  console.log("logo check");
-  await expect(element(By.css(getEle("titleLogo")))).to.exist;
+  expect(element(By.css(".logo")).isDisplayed()).be.eventually.true;
+  // expect(browser.getTitle()).to.eventually.equal(
+  //   "Lifepluz – Bringing Life to You"
+  // );
+  //await expect(element(By.css(getEle("titleLogo")))).to.be.displayed;
 });
 
 When("Click on Login Menu", async () => {
@@ -24,7 +32,7 @@ When("Click on Login Menu", async () => {
 });
 
 When("Is login Logo Displayed", async () => {
-  await expect(element(By.css(eleLogin.loginLogo))).to.exist;
+  await expect(element(By.css(eleLogin.loginLogo))).to.be.displayed;
   browser.sleep(1000);
 });
 

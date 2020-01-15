@@ -1,5 +1,5 @@
 const lp = {
-  titleLogo: ".logo",
+  titleLogo: ".navbar-brand > .logo",
   uname: "#user_login",
   checkbox: "#rememberme",
 
@@ -14,7 +14,15 @@ const lp = {
     signup: ".signup-btn",
     email: "#user_email",
     submit: "#wp-submit"
-   
+  },
+  navigation: {
+    menuList: ".nav > .dropdown", // ".nav .dropdown .dropdown-toggle",
+    categoryVisible: "dropdown-menu .menu-scrollbar-1 .animated .fadeInDown",
+    authorVisible: "dropdown-menu .menu-scrollbar-2 .animated .fadeInDown",
+    quickLinks: ".footer_term a",
+    aboutusDisplay: ".term-to-us-form-section h3",
+    home: ".breadcrumb a",
+    bcHome: ".navbar-brand" //"ol.breadcrumb li:first-child a"
   }
 };
 

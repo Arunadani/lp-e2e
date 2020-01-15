@@ -32,7 +32,7 @@ export let config: Config = {
     browser
       .manage()
       .timeouts()
-      .implicitlyWait(5000);
+      .implicitlyWait(1000);
     browser.ignoreSynchronization = true;
   }
 };

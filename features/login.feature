@@ -22,8 +22,9 @@ Feature: lifepluz URL Test
     Scenario: Navigation
         Given Open "lp" page
         #Then Click on menus one by one
-        # When Test quick links
-        When Social Media Test
+        When Select Random Author
+# When Test quick links
+#When Social Media Test
 
 
 

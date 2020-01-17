@@ -18,7 +18,7 @@ const lp = {
   navigation: {
     menuList: ".nav > .dropdown", // ".nav .dropdown .dropdown-toggle",
     categoryVisible: "dropdown-menu .menu-scrollbar-1 .animated .fadeInDown",
-    authorVisible: "dropdown-menu .menu-scrollbar-2 .animated .fadeInDown",
+    authorVisible: ".dropdown-menu.menu-scrollbar-2 a",
     quickLinks: ".footer_term a",
     quickLinksDisplay: ".term-to-us-form-section",
     bcHome: ".navbar-brand",
@@ -28,8 +28,8 @@ const lp = {
       "#logo",
       '.cq2ai img[alt="Instagram"]',
       "#blueBarDOMInspector"
-    ]
-    //socialMediaDisplay:["#inner-header-container #text.style-scope"]
+    ],
+    authorImage: ".authors-info-image"
   }
 };
 

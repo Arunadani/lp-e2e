@@ -1,5 +1,6 @@
 import { Config } from "protractor";
 import { browser } from "protractor";
+import * as reporter from "cucumber-html-reporter";
 
 export let config: Config = {
   // The address of a running selenium server.
@@ -20,11 +21,14 @@ export let config: Config = {
   specs: ["../*/*.feature"],
   cucumberOpts: {
     // require step definitions
+    tags: "@Initial",
+    format: "json:./cucumberTestReport.json",
     require: [
       "./specs/*.js" // accepts a glob
     ]
   },
   onPrepare: () => {
+    console.log("ONPREPARE");
     browser
       .manage()
       .window()
@@ -34,5 +38,26 @@ export let config: Config = {
       .timeouts()
       .implicitlyWait(1000);
     browser.ignoreSynchronization = true;
+  },
+  onComplete: () => {
+    console.log("ONCOMPLETE");
+    var options = {
+      theme: "bootstrap",
+      jsonFile: "./cucumberTestReport.json",
+      output: "./cucumberReport.html",
+      reportSuiteAsScenarios: true,
+      scenarioTimestamp: true,
+      launchReport: true,
+      metadata: {
+        "App Version": "0.3.2",
+        "Test Environment": "STAGING",
+        Browser: "Chrome  54.0.2840.98",
+        Platform: "Windows 10",
+        Parallel: "Scenarios",
+        Executed: "Remote"
+      }
+    };
+
+    reporter.generate(options);
   }
 };

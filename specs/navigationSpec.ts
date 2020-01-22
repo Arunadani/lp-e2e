@@ -28,6 +28,20 @@ var lpTitle = "lifepluz";
 browser.ignoreSynchronization = true;
 browser.waitForAngularEnabled(false);
 
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+async function categoryAuthorSelection(eleMain: ElementFinder) {
+  browser.sleep(2000);
+  await browser
+    .actions()
+    .mouseMove(eleMain)
+    .perform();
+  await browser.sleep(2000);
+}
+
 function quikLinks(displayEle: string) {
   browser.sleep(5000);
   browser.getWindowHandle().then(function(parentGUID) {
@@ -99,48 +113,29 @@ When("Social Media Test", async () => {
 });
 
 When("Select Random Author", async () => {
-  /* eleArray,eleRandomAuthor/category,max,image check*/
+  let max;
+  let categoryEle = element(By.cssContainingText(eleNav.menuList, "Categories"));
+  var eleCategoryList = element.all(By.css(eleNav.categoryVisible));
+  await eleCategoryList.count().then(function(size) {
+    max = size;
+  });
+  let randomList = getRandomInt(max);
+  categoryAuthorSelection(categoryEle);
+  eleCategoryList.get(randomList).click();
+  await browser.sleep(2000);
+  expect(element(By.css(eleNav.authorImage)).isDisplayed()).be.eventually.true;
+});
+
+When("Select Random Category", async () => {
   let max;
   let authorEle = element(By.cssContainingText(eleNav.menuList, "Authors"));
-  let eleAuthorList = element.all(By.css(eleNav.authorVisible));
+  var eleAuthorList = element.all(By.css(eleNav.authorVisible));
   await eleAuthorList.count().then(function(size) {
     max = size;
   });
-  let randomNumber;
-  randomNumber = getRandomInt(max);
-  browser.sleep(2000);
-  await browser
-    .actions()
-    .mouseMove(authorEle)
-    .perform();
+  let randomList = getRandomInt(max);
+  categoryAuthorSelection(authorEle);
+  eleAuthorList.get(randomList).click();
   await browser.sleep(2000);
-  // $(".menu-scrollbar-2 li:nth-child(2) a").click();
-  eleAuthorList.get(randomNumber).click();
   expect(element(By.css(eleNav.authorImage)).isDisplayed()).be.eventually.true;
-
-  // var imageAuthor = element(By.css(eleNav.authorImage));
-  // categoryAuthorSelection(authorEle, eleAuthorList, max, imageAuthor);
 });
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
-function categoryAuthorSelection(
-  Ele: ElementFinder,
-  List: ElementArrayFinder,
-  maxNum: Number,
-  image: ElementFinder
-) {
-  let randomNumber;
-  randomNumber = getRandomInt(maxNum);
-  browser.sleep(2000);
-  browser
-    .actions()
-    .mouseMove(Ele)
-    .perform();
-  browser.sleep(2000);
-  // $(".menu-scrollbar-2 li:nth-child(2) a").click();
-  List.get(randomNumber).click();
-  expect(image.isDisplayed()).be.eventually.true;
-}

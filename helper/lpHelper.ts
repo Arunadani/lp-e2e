@@ -17,7 +17,7 @@ const lp = {
   },
   navigation: {
     menuList: ".nav > .dropdown", // ".nav .dropdown .dropdown-toggle",
-    categoryVisible: "dropdown-menu .menu-scrollbar-1 .animated .fadeInDown",
+    categoryVisible: "dropdown-menu.menu-scrollbar-1",
     authorVisible: ".dropdown-menu.menu-scrollbar-2 a",
     quickLinks: ".footer_term a",
     quickLinksDisplay: ".term-to-us-form-section",

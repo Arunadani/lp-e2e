@@ -7,15 +7,11 @@ import {
   $$,
   ExpectedConditions,
   ElementFinder,
-  ElementArrayFinder
+  ElementArrayFinder,
 } from "protractor";
 import { async } from "q";
 import { getEle } from "../helper/lpHelper";
 import { protractor } from "protractor/built/ptor";
-
-/*import chai = require("chai");
-chai.use(require("chai-smoothie"));
-var expect = chai.expect;*/
 
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
@@ -24,28 +20,46 @@ const expect = chai.expect;
 
 let eleNav = getEle("navigation");
 var lpTitle = "lifepluz";
-
+var max;
 browser.ignoreSynchronization = true;
 browser.waitForAngularEnabled(false);
 
+async function logoCheck() {
+  await browser.sleep(2000);
+  await expect(element(By.css(".logo")).isDisplayed()).to.eventually.true;
+  await browser.sleep(2000);
+}
+async function categorySelect() {
+  var categoryEle: ElementFinder = element(
+    By.cssContainingText(eleNav.menuList, "Categories")
+  );
+  menuMouseHover(categoryEle);
+  await browser.sleep(4000);
+}
+
+async function getListLength(eleTemp) {
+  var arrayList: ElementArrayFinder = element.all(By.css(eleNav[eleTemp]));
+  await arrayList.count().then(function (size) {
+    max = size;
+    //console.log("Max----" + max);
+  });
+  return max;
+}
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-async function categoryAuthorSelection(eleMain: ElementFinder) {
+async function menuMouseHover(eleMain: ElementFinder) {
   browser.sleep(2000);
-  await browser
-    .actions()
-    .mouseMove(eleMain)
-    .perform();
+  await browser.actions().mouseMove(eleMain).perform();
   await browser.sleep(2000);
 }
 
-function quikLinks(displayEle: string) {
-  browser.sleep(5000);
-  browser.getWindowHandle().then(function(parentGUID) {
-    browser.getAllWindowHandles().then(function(allGUID) {
+async function quikLinks(displayEle: string) {
+  await browser.sleep(5000);
+  browser.getWindowHandle().then(function (parentGUID) {
+    browser.getAllWindowHandles().then(function (allGUID) {
       for (let guid of allGUID) {
         if (guid != parentGUID) {
           browser.sleep(2000);
@@ -72,17 +86,7 @@ Then("Click on menus one by one", async () => {
   browser.waitForAngularEnabled(false);
 
   for (let i = 0; i < 2; i++) {
-    // eleArray
-    //   .get(i)
-    //   .getText()s
-    //   .then(function(text) {
-    //     console.log("Nav text" + text);
-    /* for mousehover*/
-    //console.log("Nav menu---" + i);
-    await browser
-      .actions()
-      .mouseMove(eleArray.get(i))
-      .perform();
+    await browser.actions().mouseMove(eleArray.get(i)).perform();
     await browser.sleep(2000);
   }
 });
@@ -112,30 +116,77 @@ When("Social Media Test", async () => {
   }
 });
 
-When("Select Random Author", async () => {
-  let max;
-  let categoryEle = element(By.cssContainingText(eleNav.menuList, "Categories"));
-  var eleCategoryList = element.all(By.css(eleNav.categoryVisible));
-  await eleCategoryList.count().then(function(size) {
+When("Select Random Category", async () => {
+  var max;
+  var categoryEle = element(
+    By.cssContainingText(eleNav.menuList, "Categories")
+  );
+  var eleCategoryList: ElementArrayFinder = element.all(
+    By.css(eleNav.categoryVisible)
+  );
+  await eleCategoryList.count().then(function (size) {
     max = size;
+    //console.log("Max----" + max);
   });
-  let randomList = getRandomInt(max);
-  categoryAuthorSelection(categoryEle);
+  let randomList: number = getRandomInt(max);
+  menuMouseHover(categoryEle);
   eleCategoryList.get(randomList).click();
-  await browser.sleep(2000);
-  expect(element(By.css(eleNav.authorImage)).isDisplayed()).be.eventually.true;
+  await browser.sleep(5000);
+  await expect(element(By.css(".logo")).isDisplayed()).to.eventually.true;
 });
 
-When("Select Random Category", async () => {
+When("Select Random Author", async () => {
   let max;
   let authorEle = element(By.cssContainingText(eleNav.menuList, "Authors"));
   var eleAuthorList = element.all(By.css(eleNav.authorVisible));
-  await eleAuthorList.count().then(function(size) {
+  await eleAuthorList.count().then(function (size) {
     max = size;
   });
   let randomList = getRandomInt(max);
-  categoryAuthorSelection(authorEle);
+  menuMouseHover(authorEle);
   eleAuthorList.get(randomList).click();
   await browser.sleep(2000);
-  expect(element(By.css(eleNav.authorImage)).isDisplayed()).be.eventually.true;
+  await expect(element(By.css(eleNav.authorImage)).isDisplayed()).be.eventually
+    .true;
+});
+
+When("Click on {string} menu", async (string) => {
+  var categoryEle = element(
+    By.cssContainingText(eleNav.menuList, "Categories")
+  );
+  menuMouseHover(categoryEle);
+  //let ListLen = getListLength("categoryVisible");
+  var mainMenu = element(By.cssContainingText(eleNav.categoryVisible, string));
+
+  if (string == "Pets" || string == "Cancer") {
+    mainMenu.click();
+  } else {
+    menuMouseHover(mainMenu);
+  }
+
+  await browser.sleep(2000);
+});
+
+When("Check {string} submenus and Click one after one", async (string) => {
+  let submenu = element.all(By.css(eleNav.catergorySubmenu));
+  await submenu.count().then(function (size) {
+    max = size;
+    console.log("submenu List Length:-->" + max);
+  });
+  console.log("menu:" + string);
+
+  for (let i = 0; i < max; i++) {
+    console.log("submenu --" + i);
+    menuMouseHover(submenu.get(i));
+    await submenu.get(i).click();
+    logoCheck();
+    categorySelect();
+    var mainMenu = element(
+      By.cssContainingText(eleNav.categoryVisible, string)
+    );
+    if (i < max - 1) {
+      menuMouseHover(mainMenu);
+      await browser.sleep(2000);
+    }
+  }
 });

@@ -20,13 +20,11 @@ When("Click Signup", async () => {
   await element(By.css(eleRegister.signup)).click();
   browser.sleep(1000);
 });
-When("Enter username", async () => {
-  await element(By.css(getEle("uname"))).sendKeys("aruna");
+
+Then("Enter email {string}", async string => {
+  await element(By.css(eleRegister.email)).sendKeys(string);
 });
-When("Enter email", async () => {
-  await element(By.css(eleRegister.email)).sendKeys("arunarose@gmail.com");
-});
-When("Click Register", async () => {
+Then("Click Register", async () => {
   await element(By.css(eleRegister.submit)).click();
   browser.sleep(2000);
 });

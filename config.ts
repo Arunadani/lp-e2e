@@ -12,7 +12,7 @@ export let config: Config = {
 
   // Capabilities to be passed to the webdriver instanace.
   capabilities: {
-    browserName: "chrome"
+    browserName: "chrome",
   },
 
   // Spec patterns are relative to the configuration file location passed
@@ -24,19 +24,13 @@ export let config: Config = {
     tags: "@Initial",
     format: "json:./cucumberTestReport.json",
     require: [
-      "./specs/*.js" // accepts a glob
-    ]
+      "./specs/*.js", // accepts a glob
+    ],
   },
   onPrepare: () => {
     console.log("ONPREPARE");
-    browser
-      .manage()
-      .window()
-      .maximize();
-    browser
-      .manage()
-      .timeouts()
-      .implicitlyWait(1000);
+    browser.manage().window().maximize();
+    browser.manage().timeouts().implicitlyWait(1000);
     browser.ignoreSynchronization = true;
   },
   onComplete: () => {
@@ -54,10 +48,10 @@ export let config: Config = {
         Browser: "Chrome  54.0.2840.98",
         Platform: "Windows 10",
         Parallel: "Scenarios",
-        Executed: "Remote"
-      }
+        Executed: "Remote",
+      },
     };
 
     reporter.generate(options);
-  }
+  },
 };

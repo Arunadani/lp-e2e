@@ -11,7 +11,7 @@ import {
 } from "protractor";
 import { async } from "q";
 import { getEle } from "../helper/lpHelper";
-import { protractor } from "protractor/built/ptor";
+
 
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
